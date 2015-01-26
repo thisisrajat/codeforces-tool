@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from get_solution import Solution
+import os
 
 app = Flask(__name__)
 
@@ -18,7 +19,9 @@ def get_solution():
 
   return _solution.compute()
 
-LOCAL = True
-
 if __name__ == '__main__':
-  app.run(debug=LOCAL)
+
+  if os.environ.get('HEROKU') is None:
+    app.run(debug=True)
+  else:
+    app.run()
