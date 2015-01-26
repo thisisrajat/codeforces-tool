@@ -26,5 +26,7 @@ class Solution:
     for submission in f['result']:
       if submission['verdict'] == 'OK':
         if submission['contestId'] == int(self.contest) and submission['problem']['index'] == self.problem.upper():
-          return "http://codeforces.com/contest/{}/submission/{}".format(self.contest, submission['id'])
+          return {'status' : 'ok', 'url' : "http://codeforces.com/contest/{}/submission/{}".format(self.contest, submission['id'])}
+
+    return { 'status' : '!ok', 'url' : "No Solution matching these Parameters."}
 
