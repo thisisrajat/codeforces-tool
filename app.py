@@ -15,9 +15,15 @@ def get_solution():
   contest = request.args.get('contest')
   pid = request.args.get('problem')
 
-  _solution = Solution(user, contest, pid)
+  try:
+    int(contest)
+  except:
+    return jsonify( { "status" : "!ok", "url" : "Invalid Contest Id" } )
 
-  return _solution.compute()
+  _solution = Solution(user, contest, pid)
+  _id = _solution.compute()
+
+  return jsonify(_id)
 
 if __name__ == '__main__':
 
