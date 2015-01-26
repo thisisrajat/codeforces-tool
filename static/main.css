@@ -7,7 +7,11 @@
   text-align: center;
 }
 .url-center{
-  display: block;
-  margin-top: 6em;
   text-align: center;
+}
+.green {
+  color: #088A08;
+}
+.red {
+  color: #8A0808;
 }
