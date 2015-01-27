@@ -14,11 +14,22 @@ def get_solution():
   user = request.args.get('user')
   contest = request.args.get('contest')
   pid = request.args.get('problem')
+  
+  user = user.replace(' ', '')
+  contest = contest.replace(' ', '')
+  pid = pid.replace(' ', '')
+
+  try:
+    int(pid)
+    toChar = {'1' : 'A', '2' : 'B', '3' : 'C', '4' : 'D', '5' : 'E', '6' : 'F', '7' : 'G', '8' : 'I', '9' : 'J', '10' : 'K', '11' : 'L', '12' : 'M', '13' : 'N', '14' : 'O'}
+    pid = toChar[pid]
+  except:
+    pid = pid.upper()
 
   try:
     int(contest)
   except:
-    return jsonify( { "status" : "!ok", "url" : "Invalid Contest Id" } )
+    return jsonify( { "status" : "!ok", "data" : "#" , "whose" : "{}".format(user), "error" : "Contest ID invalid"} )
 
   _solution = Solution(user, contest, pid)
   _id = _solution.compute()

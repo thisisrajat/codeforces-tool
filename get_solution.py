@@ -7,26 +7,35 @@ http://codeforces.com/contest/507/submission/9538072
 '''
 
 class Solution:
+  
+  # Default constructor
+
   def __init__(self, handle, contest, problemid):
     self.user = handle
     self.contest = contest
     self.problem = problemid
   
-  def download_json(self, url):
-    try:
-      urllib.urlretrieve(url.format(self.user), '{}.json'.format(self.user))
-    except:
-      raise('Internet Connection Problem')
+  # Downloads the file from url
+
+  def downloadFile(self, url, name):
+    urllib.urlretrieve(url, name)
 
   def compute(self):
-    if os.path.exists('{}.json'.format(self.user)) == False:
-      self.download_json('http://codeforces.com/api/user.status?handle={}&from=1&count=1000000')
+    jsonFileName = '{}.json'.format(self.user)
+    urlPath = 'http://codeforces.com/api/user.status?handle={}&from=1&count=99999999'.format(self.user)
+
+    if os.path.exists(jsonFileName) == False:
+      self.downloadFile(urlPath, jsonFileName)
     
     f = json.loads( open('{}.json'.format(self.user)).read() )
+
+    if f['status'] == 'FAILED':
+      return { 'status' : '!ok', 'data' : '#', 'whose': self.user, 'error' : 'No user by this handle name.'}
+
     for submission in f['result']:
       if submission['verdict'] == 'OK':
         if submission['contestId'] == int(self.contest) and submission['problem']['index'] == self.problem.upper():
-          return {'status' : 'ok', 'url' : "http://codeforces.com/contest/{}/submission/{}".format(self.contest, submission['id'])}
+          return {'status' : 'ok', 'data' : "http://codeforces.com/contest/{}/submission/{}".format(self.contest, submission['id']), 'whose' : '{}'.format(self.user), 'error' : ''}
 
-    return { 'status' : '!ok', 'url' : "No Solution matching these Parameters."}
+    return { 'whose' : '{}'.format(self.user), 'status' : '!ok', 'error' : "No Solution matching these Parameters.", 'data' : '#'}
 
