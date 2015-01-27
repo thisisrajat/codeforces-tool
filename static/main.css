@@ -15,3 +15,11 @@
 .red {
   color: #8A0808;
 }
+.bordered {
+  border: 2px solid red;
+}
+.urlbox {
+  display: block;
+  text-align: center;
+}
+/* Add a hover css */
