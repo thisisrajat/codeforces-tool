@@ -1,8 +1,10 @@
 window.onload = function() {
   document.getElementById('wrapper').innerHTML = '';
+  changeButtonState('btn-default');
 };
 
 function get() {
+  changeButtonState('btn-primary');
   document.getElementById('wrapper').innerHTML = '';
   var usersList = document.getElementById('username').value;
   var contest = document.getElementById('contest').value;
@@ -12,6 +14,7 @@ function get() {
   for(var i = 0; i < usersList.length; i++) {
     findSolutionId('/get_solution?user=' + usersList[i] + '&contest=' + contest + '&problem=' + problem);
   }
+
 }
 
 function findSolutionId(url) {
@@ -20,6 +23,7 @@ function findSolutionId(url) {
   request.onreadystatechange = function() {
     if(request.readyState == 4 && request.status == 200) {
       var response = JSON.parse(request.responseText);
+      changeButtonState('btn-success');
       if(response.status === '!ok') {
         var html = htmlToAppend('alert-danger', 'red', response.data, response.whose, response.error);
         document.getElementById('wrapper').innerHTML += html;
@@ -44,4 +48,8 @@ function htmlToAppend(alertType, colorType, url, whose, error) {
   }
   html += "</a></div>"
   return html;
+}
+
+function changeButtonState(btnState) {
+  document.getElementById('button').className = "btn " + btnState;
 }
