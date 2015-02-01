@@ -22,12 +22,9 @@ class Solution:
 
   def compute(self):
     jsonFileName = '{}.json'.format(self.user)
-    urlPath = 'http://codeforces.com/api/user.status?handle={}&from=1&count=99999999'.format(self.user)
+    urlPath = 'http://codeforces.com/api/user.status?handle={}&from=1&count=50'.format(self.user)
 
-    if os.path.exists(jsonFileName) == False:
-      self.downloadFile(urlPath, jsonFileName)
-    
-    f = json.loads( open('{}.json'.format(self.user)).read() )
+    f = json.loads( urllib.urlopen(urlPath).read() )
 
     if f['status'] == 'FAILED':
       return { 'status' : '!ok', 'data' : '#', 'whose': self.user, 'error' : 'No user by this handle name.'}
