@@ -22,7 +22,7 @@ class Solution:
 
   def compute(self):
     jsonFileName = '{}.json'.format(self.user)
-    urlPath = 'http://codeforces.com/api/user.status?handle={}&from=1&count=50'.format(self.user)
+    urlPath = 'http://codeforces.com/api/user.status?handle={}&from=1&count=999999999'.format(self.user)
 
     f = json.loads( urllib.urlopen(urlPath).read() )
 
